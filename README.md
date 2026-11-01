@@ -3,21 +3,39 @@
 # 🧬 VitalAI — Autonomous Health & BMI Intelligence Platform
 ### *Production-Grade Agentic Health Copilot & Biometric Analytics System*
 
+[![Live Demo](https://img.shields.io/badge/Live_App-Streamlit_Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://agentic-bmi-health-assistant.streamlit.app/)
 [![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.42%2B-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.42%2B-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://agentic-bmi-health-assistant.streamlit.app/)
 [![Agentic AI](https://img.shields.io/badge/Agentic_AI-Autonomous_Copilot-7C3AED?style=for-the-badge&logo=openai&logoColor=white)](#-agentic-ai-architecture)
-[![Status](https://img.shields.io/badge/Status-Portfolio_Ready-22C55E?style=for-the-badge)](#)
+[![Status](https://img.shields.io/badge/Status-Live_&_Operational-22C55E?style=for-the-badge)](https://agentic-bmi-health-assistant.streamlit.app/)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+
+<br/>
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://agentic-bmi-health-assistant.streamlit.app/)
 
 <br/>
 
 > **VitalAI** transforms conventional, static BMI calculators into an **intelligent, autonomous health decision support system**. Engineered by an **Agentic AI Developer**, it combines precision anthropometrics, metabolic forecasting, and a **24/7 context-aware conversational health agent**.
 
-[Explore Features](#-key-features) • [System Architecture](#-agentic-ai-architecture) • [Quickstart](#-quickstart--installation) • [Clinical Formulas](#-clinical-specifications)
+### 🌐 [**🚀 Click Here to Open the Live Streamlit App**](https://agentic-bmi-health-assistant.streamlit.app/)
+
+[Live Demo](https://agentic-bmi-health-assistant.streamlit.app/) • [Explore Features](#-key-features) • [System Architecture](#-agentic-ai-architecture) • [Quickstart](#-quickstart--installation) • [Clinical Formulas](#-clinical-specifications)
 
 ---
 
 </div>
+
+## 🌐 Live Cloud Deployment
+
+Experience the production deployment running live 24/7 on Streamlit Community Cloud:
+
+👉 **[https://agentic-bmi-health-assistant.streamlit.app/](https://agentic-bmi-health-assistant.streamlit.app/)**
+
+- **Zero Setup Required**: Instant in-browser experience on mobile, tablet, and desktop.
+- **Synced Biometrics**: Calculate live BMI, BMR, TDEE, and chat with the 24/7 autonomous copilot immediately.
+
+---
 
 ## 🌟 Highlights & Why This Project Stands Out
 
