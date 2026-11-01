@@ -1,0 +1,10 @@
+[project]
+name = "agentic-bmi-health-assistant"
+version = "2.0.0"
+description = "Autonomous Agentic Health & BMI Intelligence Platform with 24/7 Context-Aware AI Copilot"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit>=1.42.0",
+    "pandas>=2.2.0",
+]
