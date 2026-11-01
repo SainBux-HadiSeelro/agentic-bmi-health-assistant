@@ -1,7 +1,8 @@
 """
 🧬 VitalAI - Smart Health & BMI Intelligence Platform
-Simple, aesthetic, and designed for everyone (technical and non-technical).
-Features real-time biometrics, visual health meters, and an aesthetic floating corner AI Chatbot.
+Clean, aesthetic, high-contrast, and intuitive for everyone.
+Includes precision biometrics, visual WHO spectrum meter,
+and a 24/7 Live AI Health Assistant anchored as a floating circular chat widget in the bottom-right corner.
 """
 
 import streamlit as st
@@ -21,110 +22,128 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# Modern Aesthetic & Floating Corner Chatbot Styling
+# High-Contrast Cyber-Glassmorphic Dark Theme Styling
 # ---------------------------------------------------------
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+    /* Global Typography & Background */
+    html, body, [class*="css"], .stApp {
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        background-color: #0b0f19 !important;
+        color: #f8fafc !important;
     }
 
-    /* Main Container Padding */
+    /* Container: Centered with comfortable bottom clearance */
     .block-container {
-        padding-top: 2rem;
-        padding-bottom: 5rem;
-        max-width: 1200px;
+        padding-top: 1.5rem !important;
+        padding-bottom: 100px !important;
+        max-width: 1040px !important;
+        margin: 0 auto !important;
     }
 
     /* Hero Banner */
     .hero-banner {
-        background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(99, 102, 241, 0.15) 50%, rgba(168, 85, 247, 0.15) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 20px;
-        padding: 24px 30px;
-        margin-bottom: 24px;
-        backdrop-filter: blur(14px);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+        border-radius: 18px;
+        padding: 18px 24px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.5);
     }
 
     .hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: rgba(99, 102, 241, 0.2);
-        color: #a5b4fc;
-        border: 1px solid rgba(99, 102, 241, 0.35);
-        padding: 4px 12px;
+        background: rgba(99, 102, 241, 0.25);
+        color: #c7d2fe;
+        border: 1px solid rgba(99, 102, 241, 0.4);
+        padding: 3px 10px;
         border-radius: 9999px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-bottom: 10px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        margin-bottom: 6px;
     }
 
     .hero-title {
-        font-size: 2.1rem;
+        font-size: 1.95rem;
         font-weight: 800;
         background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
+        letter-spacing: -0.5px;
     }
 
     .hero-subtitle {
+        color: #cbd5e1;
+        font-size: 0.92rem;
+        line-height: 1.4;
+    }
+
+    /* Section Headers */
+    .section-title {
+        font-size: 1.18rem;
+        font-weight: 700;
+        color: #f8fafc;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 2px;
+    }
+
+    .section-caption {
         color: #94a3b8;
-        font-size: 0.98rem;
-        line-height: 1.5;
+        font-size: 0.82rem;
+        margin-bottom: 14px;
     }
 
-    /* Card Containers */
-    .simple-card {
-        background: rgba(30, 41, 59, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Big Hero Result Card */
+    .result-hero-box {
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.35);
         border-radius: 16px;
-        padding: 22px;
-        margin-bottom: 16px;
-        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
-    }
-
-    /* Big Metric Result Card */
-    .result-hero-card {
-        background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.3);
-        border-radius: 18px;
-        padding: 24px;
+        padding: 18px;
         text-align: center;
-        margin-bottom: 18px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        margin-bottom: 14px;
+        box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
     }
 
-    .bmi-number {
-        font-size: 3.2rem;
+    .bmi-score {
+        font-size: 3.1rem;
         font-weight: 800;
-        line-height: 1.1;
-        margin: 6px 0;
+        line-height: 1.05;
+        margin: 4px 0;
     }
 
-    .category-pill {
+    .status-pill {
         display: inline-block;
-        padding: 6px 18px;
+        padding: 5px 18px;
         border-radius: 9999px;
         font-weight: 700;
-        font-size: 0.95rem;
-        margin-top: 6px;
+        font-size: 0.9rem;
+        margin-top: 4px;
+        letter-spacing: 0.3px;
     }
 
     /* Visual Spectrum Gauge */
-    .gauge-container {
-        margin: 18px 0;
+    .gauge-card {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 14px 18px;
+        margin: 14px 0;
     }
 
-    .gauge-track {
+    .gauge-bar-track {
         display: flex;
-        height: 16px;
-        border-radius: 8px;
+        height: 14px;
+        border-radius: 7px;
         overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        margin: 8px 0 6px 0;
     }
 
     .gauge-seg-under { background: #38bdf8; width: 18.5%; }
@@ -133,138 +152,148 @@ st.markdown("""
     .gauge-seg-obese1 { background: #f97316; width: 18%; }
     .gauge-seg-obese2 { background: #ef4444; width: 18.5%; }
 
-    .gauge-marker-row {
+    .gauge-marker-wrap {
         position: relative;
-        height: 14px;
-        margin-top: 2px;
+        height: 16px;
     }
 
-    .gauge-marker {
+    .gauge-pointer {
         position: absolute;
         transform: translateX(-50%);
-        color: #f8fafc;
-        font-size: 13px;
-        font-weight: bold;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 800;
+        background: #6366f1;
+        padding: 2px 7px;
+        border-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
-    .gauge-legend {
+    .gauge-text-legend {
         display: flex;
         justify-content: space-between;
-        color: #94a3b8;
-        font-size: 0.75rem;
-        margin-top: 4px;
-        font-weight: 500;
+        color: #cbd5e1;
+        font-size: 0.78rem;
+        font-weight: 600;
+        margin-top: 6px;
     }
 
-    /* Mini Stat Cards */
-    .stat-grid {
+    /* Key Stat Triplet Cards */
+    .triplet-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        margin-top: 14px;
+        gap: 10px;
+        margin: 14px 0;
     }
 
-    .stat-box {
-        background: rgba(15, 23, 42, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.07);
+    .triplet-item {
+        background: rgba(21, 28, 44, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 12px;
-        padding: 14px;
+        padding: 12px 8px;
         text-align: center;
     }
 
-    .stat-title {
-        font-size: 0.75rem;
+    .triplet-label {
+        font-size: 0.72rem;
         color: #94a3b8;
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.5px;
     }
 
-    .stat-val {
-        font-size: 1.35rem;
+    .triplet-number {
+        font-size: 1.25rem;
         font-weight: 800;
-        color: #f8fafc;
-        margin-top: 3px;
+        color: #ffffff;
+        margin: 3px 0 1px 0;
     }
 
-    .stat-desc {
-        font-size: 0.75rem;
-        color: #64748b;
-        margin-top: 2px;
+    .triplet-caption {
+        font-size: 0.74rem;
+        font-weight: 600;
     }
 
-    /* Friendly Advice Box */
-    .friendly-box {
-        background: rgba(99, 102, 241, 0.09);
-        border-left: 4px solid #6366f1;
-        border-radius: 8px;
-        padding: 14px 18px;
-        margin: 16px 0;
-        font-size: 0.92rem;
-        color: #e2e8f0;
-        line-height: 1.5;
+    /* Friendly Advice Banner */
+    .advice-banner {
+        background: rgba(99, 102, 241, 0.12);
+        border-left: 4px solid #818cf8;
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin: 14px 0;
+        color: #f1f5f9;
+        font-size: 0.88rem;
+        line-height: 1.45;
     }
 
-    /* ---------------------------------------------
-       Aesthetic Floating Corner Chatbot
-       --------------------------------------------- */
+    /* --------------------------------------------------
+       FIXED CORNER FLOATING CIRCULAR CHATBOT (Modern SaaS FAB)
+       -------------------------------------------------- */
     div[data-testid="stPopover"] {
         position: fixed !important;
-        bottom: 24px !important;
-        right: 24px !important;
-        z-index: 999999 !important;
+        bottom: 26px !important;
+        right: 26px !important;
+        z-index: 9999999 !important;
     }
 
     div[data-testid="stPopover"] > button {
-        background: linear-gradient(135deg, #0284c7 0%, #6366f1 50%, #a855f7 100%) !important;
+        width: 58px !important;
+        height: 58px !important;
+        border-radius: 50% !important;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%) !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        border-radius: 9999px !important;
-        padding: 12px 22px !important;
-        font-size: 0.95rem !important;
-        font-weight: 700 !important;
-        box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.6), 0 0 18px rgba(168, 85, 247, 0.4) !important;
-        display: inline-flex !important;
+        border: 2px solid rgba(255, 255, 255, 0.45) !important;
+        padding: 0 !important;
+        display: flex !important;
         align-items: center !important;
-        gap: 8px !important;
-        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        justify-content: center !important;
+        font-size: 1.55rem !important;
+        box-shadow: 0 10px 25px -4px rgba(124, 58, 237, 0.75), 0 0 18px rgba(219, 39, 119, 0.5) !important;
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease !important;
+        cursor: pointer !important;
     }
 
     div[data-testid="stPopover"] > button:hover {
-        transform: translateY(-3px) scale(1.04) !important;
-        box-shadow: 0 14px 30px -5px rgba(99, 102, 241, 0.8), 0 0 22px rgba(168, 85, 247, 0.6) !important;
+        transform: scale(1.1) translateY(-3px) !important;
+        box-shadow: 0 16px 35px -4px rgba(124, 58, 237, 0.95), 0 0 25px rgba(219, 39, 119, 0.7) !important;
+    }
+
+    /* Hide the default down-arrow on circular button */
+    div[data-testid="stPopover"] > button svg {
+        display: none !important;
     }
 
     div[data-testid="stPopoverBody"] {
-        width: 390px !important;
-        max-width: 92vw !important;
-        max-height: 560px !important;
+        width: 380px !important;
+        max-width: 90vw !important;
+        max-height: 540px !important;
         border-radius: 20px !important;
-        background: #0f172a !important;
-        border: 1px solid rgba(99, 102, 241, 0.35) !important;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 20px rgba(99, 102, 241, 0.2) !important;
+        background: #111827 !important;
+        border: 1.5px solid rgba(124, 58, 237, 0.45) !important;
+        box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.9) !important;
         padding: 16px !important;
+        color: #f8fafc !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------
-# Hero Banner (Attractive for new visitors)
+# Top Hero Banner
 # ---------------------------------------------------------
 st.markdown("""
 <div class="hero-banner">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
         <div>
             <div class="hero-badge">✨ AI-Powered Health Intelligence</div>
-            <div class="hero-title">Simple & Smart BMI Health Calculator</div>
+            <div class="hero-title">Smart & Simple BMI Health Calculator</div>
             <div class="hero-subtitle">
-                Enter your details to get your instant BMI score, ideal weight range, daily calorie target, 
-                and personalized health tips. Non-technical & easy for everyone!
+                Accurate clinical insights made clear and simple. Discover your ideal weight, daily calories, 
+                hydration target, and get instant guidance from your 24/7 AI Health Coach.
             </div>
         </div>
-        <div style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 9999px; padding: 6px 14px; font-size: 0.82rem; font-weight: 600; color: #4ade80;">
-            🟢 24/7 AI Health Coach Ready
+        <div style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 9999px; padding: 6px 14px; font-size: 0.82rem; font-weight: 700; color: #4ade80;">
+            ● 24/7 AI Health Coach Active
         </div>
     </div>
 </div>
@@ -272,29 +301,29 @@ st.markdown("""
 
 
 # ---------------------------------------------------------
-# Two-Column Clean Dashboard Layout
+# Dual-Column Main Dashboard Layout
 # ---------------------------------------------------------
-col_input, col_result = st.columns([1, 1.25], gap="large")
+col_left, col_right = st.columns([1, 1.25], gap="large")
 
-with col_input:
-    st.markdown("### 📝 Enter Your Details")
-    st.caption("Change any value below to see instant results")
+with col_left:
+    st.markdown('<div class="section-title">📝 Enter Your Details</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-caption">Instant calculations update as you adjust any value</div>', unsafe_allow_html=True)
 
-    # Friendly Unit Selector
+    # Unit switch
     unit_mode = st.radio(
-        "Choose Your Measurement Units:",
+        "Measurement System:",
         ["Metric (kg & cm)", "Imperial (lbs & feet/inches)"],
         horizontal=True
     )
 
     # Gender & Age
-    c_gen, c_age = st.columns(2)
-    with c_gen:
-        gender = st.selectbox("Your Gender", ["Male", "Female"])
-    with c_age:
-        age = st.number_input("Your Age (Years)", min_value=10, max_value=120, value=25, step=1)
+    c1, c2 = st.columns(2)
+    with c1:
+        gender = st.selectbox("Biological Sex", ["Male", "Female"])
+    with c2:
+        age = st.number_input("Age (Years)", min_value=10, max_value=120, value=25, step=1)
 
-    # Weight & Height based on unit mode
+    # Weight & Height
     if "Metric" in unit_mode:
         weight_kg = st.number_input("Weight (in kg)", min_value=20.0, max_value=350.0, value=70.0, step=0.5)
         height_cm = st.number_input("Height (in cm)", min_value=80.0, max_value=250.0, value=170.0, step=0.5)
@@ -306,71 +335,70 @@ with col_input:
         with c_in:
             height_in = st.number_input("Inches", min_value=0.0, max_value=11.9, value=7.0, step=0.5)
 
-        # Convert to Metric for calculation
         weight_kg = weight_lbs * 0.45359237
         height_cm = ((height_ft * 12) + height_in) * 2.54
 
-    st.markdown("---")
-    st.markdown("### 🎯 Your Goal & Routine")
+    st.markdown("<hr style='border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 14px 0;'/>", unsafe_allow_html=True)
+    st.markdown('<div class="section-title">🎯 Goal & Lifestyle</div>', unsafe_allow_html=True)
 
-    # Simple goal selection
-    goal_options = {
+    # Goals
+    goal_map = {
         "🥗 Lose Fat / Weight (Calorie Deficit)": -500,
-        "⚖️ Stay Healthy & Fit (Maintain Weight)": 0,
+        "⚖️ Maintain Healthy Weight (Equilibrium)": 0,
         "💪 Build Lean Muscle (Calorie Surplus)": 350
     }
-    user_goal = st.selectbox("What is your main health goal?", list(goal_options.keys()), index=0)
-    calorie_offset = goal_options[user_goal]
+    user_goal = st.selectbox("What is your primary health goal?", list(goal_map.keys()), index=0)
+    cal_offset = goal_map[user_goal]
 
-    # Simple activity selection
-    activity_options = {
+    # Activity
+    activity_map = {
         "Desk Job / Little Exercise (Sedentary)": 1.2,
         "Light Exercise (1 to 3 days a week)": 1.375,
         "Moderate Exercise (3 to 5 days a week)": 1.55,
-        "Very Active (Gym / Sports 6 days a week)": 1.725
+        "Very Active (Hard training 6 days a week)": 1.725
     }
-    user_activity = st.selectbox("How active are you during the week?", list(activity_options.keys()), index=1)
-    act_multiplier = activity_options[user_activity]
+    user_activity = st.selectbox("How active are you weekly?", list(activity_map.keys()), index=1)
+    act_mult = activity_map[user_activity]
 
 
 # ---------------------------------------------------------
-# Calculations
+# Mathematical & Health Calculations Core
 # ---------------------------------------------------------
 height_m = max(height_cm / 100.0, 0.5)
 bmi = round(weight_kg / (height_m ** 2), 2)
 
-# WHO Categories & Friendly Styling
+# WHO Standard Stratification & Styling
 if bmi < 18.5:
     category = "Underweight"
     cat_color = "#38bdf8"
-    cat_bg = "rgba(56, 189, 248, 0.15)"
-    friendly_msg = "You are currently underweight. Focus on eating nutrient-dense foods (eggs, milk, nuts, protein) and light strength training to reach a healthy weight."
+    cat_bg = "rgba(56, 189, 248, 0.18)"
+    coach_advice = "You are currently underweight. Focus on eating nutrient-dense whole foods (eggs, oats, dairy, nuts) and light strength training to reach a healthy weight safely."
 elif 18.5 <= bmi < 25.0:
     category = "Healthy & Normal"
     cat_color = "#22c55e"
-    cat_bg = "rgba(34, 197, 94, 0.15)"
-    friendly_msg = "Awesome! Your body weight is in the ideal healthy zone. Keep eating balanced home-cooked meals and stay consistently active!"
+    cat_bg = "rgba(34, 197, 94, 0.18)"
+    coach_advice = "Outstanding! Your weight is in the ideal clinical zone. Maintain your balanced nutrition, stay active, and drink plenty of water daily!"
 elif 25.0 <= bmi < 30.0:
     category = "Slightly Overweight"
     cat_color = "#eab308"
-    cat_bg = "rgba(234, 179, 8, 0.15)"
-    friendly_msg = "You are slightly above your ideal weight range. A small daily calorie reduction (-500 kcal) with 30 minutes of brisk walking will bring you into the normal range."
+    cat_bg = "rgba(234, 179, 8, 0.18)"
+    coach_advice = "You are slightly above your ideal weight range. A moderate caloric deficit (-500 kcal) with daily brisk walking or cardio will bring you back into the green zone."
 elif 30.0 <= bmi < 35.0:
     category = "Obese (Class 1)"
     cat_color = "#f97316"
-    cat_bg = "rgba(249, 115, 22, 0.15)"
-    friendly_msg = "Your BMI indicates obesity. Prioritize reducing sugary drinks, processed foods, and start with light daily walks. You can safely achieve great progress step-by-step!"
+    cat_bg = "rgba(249, 115, 22, 0.18)"
+    coach_advice = "Your BMI falls in the obesity bracket. Small consistent steps like cutting sugary drinks, walking 8,000 steps, and portion control will create massive health improvements!"
 else:
     category = "Obese (High Risk)"
     cat_color = "#ef4444"
-    cat_bg = "rgba(239, 68, 68, 0.15)"
-    friendly_msg = "Your weight is in a high-risk category. We strongly recommend speaking with a doctor or registered dietitian to guide your health journey safely."
+    cat_bg = "rgba(239, 68, 68, 0.18)"
+    coach_advice = "Your weight poses elevated health risks. We strongly recommend consulting with a healthcare physician or certified nutritionist for a structured medical plan."
 
 # Ideal Weight Range (WHO 18.5 - 24.9)
 ideal_min = round(18.5 * (height_m ** 2), 1)
 ideal_max = round(24.9 * (height_m ** 2), 1)
 
-# BMR & Daily Calories (Mifflin-St Jeor)
+# Basal Metabolic Rate (BMR) - Mifflin-St Jeor
 if gender == "Male":
     bmr = (10 * weight_kg) + (6.25 * height_cm) - (5 * age) + 5
     gender_factor = 1
@@ -378,17 +406,15 @@ else:
     bmr = (10 * weight_kg) + (6.25 * height_cm) - (5 * age) - 161
     gender_factor = 0
 
-tdee = bmr * act_multiplier
-daily_calories = max(1200, int(tdee + calorie_offset))
+tdee = bmr * act_mult
+daily_calories = max(1200, int(tdee + cal_offset))
 
-# Water intake in Liters & Glasses
-water_liters = round((weight_kg * 0.035) + (0.5 if act_multiplier >= 1.55 else 0), 1)
+# Hydration & Body Fat
+water_liters = round((weight_kg * 0.035) + (0.5 if act_mult >= 1.55 else 0), 1)
 water_glasses = round(water_liters * 4)
-
-# Estimated Body Fat %
 body_fat = max(4.0, round((1.20 * bmi) + (0.23 * age) - (10.8 * gender_factor) - 5.4, 1))
 
-# Initialize Health Profile for AI Agent
+# Initialize Active User Profile for AI Chatbot
 profile = UserHealthProfile(
     weight_kg=weight_kg,
     height_cm=height_cm,
@@ -409,17 +435,18 @@ profile = UserHealthProfile(
 
 
 # ---------------------------------------------------------
-# Right Column: Visual Result Card
+# Right Column: Visual Health Dashboard
 # ---------------------------------------------------------
-with col_result:
-    st.markdown("### 📊 Your Health Report")
+with col_right:
+    st.markdown('<div class="section-title">📊 Your Health Assessment</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-caption">Real-time biometric evaluation based on WHO standards</div>', unsafe_allow_html=True)
 
-    # Big Result Hero Card
+    # Hero BMI Result Card
     st.markdown(f"""
-    <div class="result-hero-card">
-        <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Your Body Mass Index (BMI)</div>
-        <div class="bmi-number" style="color: {cat_color};">{bmi}</div>
-        <div class="category-pill" style="background: {cat_bg}; color: {cat_color}; border: 1px solid {cat_color}40;">
+    <div class="result-hero-box">
+        <div style="font-size: 0.82rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Body Mass Index (BMI)</div>
+        <div class="bmi-score" style="color: {cat_color};">{bmi}</div>
+        <div class="status-pill" style="background: {cat_bg}; color: {cat_color}; border: 1.5px solid {cat_color}50;">
             ● {category}
         </div>
     </div>
@@ -428,137 +455,140 @@ with col_result:
     # Visual Spectrum Gauge
     pos_pct = max(0.0, min(100.0, ((bmi - 15) / (40 - 15)) * 100))
     st.markdown(f"""
-    <div class="gauge-container">
-        <div class="gauge-track">
+    <div class="gauge-card">
+        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700; color: #f8fafc;">
+            <span>WHO Weight Spectrum</span>
+            <span style="color: {cat_color};">Current: {bmi}</span>
+        </div>
+        <div class="gauge-bar-track">
             <div class="gauge-seg-under" title="Underweight (<18.5)"></div>
-            <div class="gauge-seg-norm" title="Normal (18.5 - 24.9)"></div>
+            <div class="gauge-seg-norm" title="Healthy Range (18.5 - 24.9)"></div>
             <div class="gauge-seg-over" title="Overweight (25 - 29.9)"></div>
             <div class="gauge-seg-obese1" title="Obese 1 (30 - 34.9)"></div>
             <div class="gauge-seg-obese2" title="Obese 2+ (≥35)"></div>
         </div>
-        <div class="gauge-marker-row">
-            <div class="gauge-marker" style="left: {pos_pct}%;">▲ You ({bmi})</div>
+        <div class="gauge-marker-wrap">
+            <div class="gauge-pointer" style="left: {pos_pct}%;">▲ You ({bmi})</div>
         </div>
-        <div class="gauge-legend">
-            <span>Underweight</span>
-            <span style="color: #22c55e;">Healthy Range</span>
-            <span>Overweight</span>
-            <span>Obese</span>
+        <div class="gauge-text-legend">
+            <span style="color: #38bdf8;">Underweight</span>
+            <span style="color: #22c55e;">Healthy Normal</span>
+            <span style="color: #eab308;">Overweight</span>
+            <span style="color: #ef4444;">Obese</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # 3 Big Key Stat Boxes
+    # 3 Stat Cards Triplet
     diff_kg = round(weight_kg - ideal_max if weight_kg > ideal_max else (ideal_min - weight_kg if weight_kg < ideal_min else 0), 1)
-    diff_text = f"~{diff_kg} kg away" if diff_kg > 0 else "In Healthy Zone!"
+    diff_sub = f"~{diff_kg} kg to reach" if diff_kg > 0 else "In Target Band"
 
     st.markdown(f"""
-    <div class="stat-grid">
-        <div class="stat-box">
-            <div class="stat-title">Ideal Weight</div>
-            <div class="stat-val" style="color: #38bdf8;">{ideal_min}-{ideal_max} <span style="font-size: 0.8rem;">kg</span></div>
-            <div class="stat-desc">{diff_text}</div>
+    <div class="triplet-grid">
+        <div class="triplet-item">
+            <div class="triplet-label">Ideal Weight</div>
+            <div class="triplet-number" style="color: #38bdf8;">{ideal_min}-{ideal_max} <span style="font-size: 0.75rem; color: #94a3b8;">kg</span></div>
+            <div class="triplet-caption" style="color: #38bdf8;">{diff_sub}</div>
         </div>
-        <div class="stat-box">
-            <div class="stat-title">Daily Calories</div>
-            <div class="stat-val" style="color: #a78bfa;">{daily_calories} <span style="font-size: 0.8rem;">kcal</span></div>
-            <div class="stat-desc">For your goal</div>
+        <div class="triplet-item">
+            <div class="triplet-label">Daily Calories</div>
+            <div class="triplet-number" style="color: #c084fc;">{daily_calories} <span style="font-size: 0.75rem; color: #94a3b8;">kcal</span></div>
+            <div class="triplet-caption" style="color: #c084fc;">For {user_goal.split(' (')[0]}</div>
         </div>
-        <div class="stat-box">
-            <div class="stat-title">Daily Water</div>
-            <div class="stat-val" style="color: #34d399;">{water_liters} <span style="font-size: 0.8rem;">L</span></div>
-            <div class="stat-desc">~{water_glasses} glasses</div>
+        <div class="triplet-item">
+            <div class="triplet-label">Daily Hydration</div>
+            <div class="triplet-number" style="color: #34d399;">{water_liters} <span style="font-size: 0.75rem; color: #94a3b8;">L</span></div>
+            <div class="triplet-caption" style="color: #34d399;">~{water_glasses} glasses/day</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Friendly Plain Advice Box
+    # Friendly Coach Advice Banner
     st.markdown(f"""
-    <div class="friendly-box">
-        💡 <b>AI Health Coach Tip:</b><br/>
-        {friendly_msg}
+    <div class="advice-banner">
+        💡 <b>AI Coach Advice for You:</b><br/>
+        {coach_advice}
     </div>
     """, unsafe_allow_html=True)
 
-    # Simple 1-Click Download Button
-    summary_txt = f"""--- VITALAI HEALTH SUMMARY ---
-Date: {datetime.now().strftime('%Y-%m-%d')}
-Weight: {weight_kg:.1f} kg | Height: {height_cm:.1f} cm
-BMI: {bmi} ({category})
-Ideal Weight: {ideal_min} - {ideal_max} kg
-Daily Calorie Target: {daily_calories} kcal/day
-Daily Water Intake: {water_liters} Liters (~{water_glasses} glasses)
-Goal: {user_goal}
-------------------------------"""
-
+    # Download summary button
+    summary_report = f"""=======================================
+🧬 VITALAI HEALTH & BIOMETRIC DOSSIER
+Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
+=======================================
+- Biological Sex: {gender} | Age: {age} yrs
+- Weight: {weight_kg:.1f} kg | Height: {height_cm:.1f} cm
+- BMI Score: {bmi} ({category})
+- Ideal Weight Range: {ideal_min} kg - {ideal_max} kg
+- Estimated Body Fat: {body_fat}%
+- Daily Calorie Target: {daily_calories} kcal/day
+- Target Goal: {user_goal}
+- Recommended Hydration: {water_liters} Liters (~{water_glasses} glasses)
+=======================================
+"""
     st.download_button(
         label="📥 Download My Health Summary",
-        data=summary_txt,
-        file_name="My_Health_Summary.txt",
+        data=summary_report,
+        file_name=f"VitalAI_Report_{datetime.now().strftime('%Y%m%d')}.txt",
         mime="text/plain",
         use_container_width=True
     )
 
 
 # ---------------------------------------------------------
-# CORNER FLOATING AESTHETIC CHATBOT (Web-style in corner)
+# CORNER FLOATING CIRCULAR AI CHATBOT (Bottom-Right Anchor)
 # ---------------------------------------------------------
-# Session state initialization for chat
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = [
+if "chat_messages" not in st.session_state:
+    st.session_state.chat_messages = [
         {
             "role": "assistant",
-            "content": f"Hi there! 👋 I am your **AI Health Coach**.\n\nI see your BMI is **{bmi} ({category})** and daily target is **{daily_calories} kcal**.\n\nHow can I help you? Ask me for an easy meal plan, home workout, or tips to reach your ideal weight!"
+            "content": f"Hi! 👋 I am your **AI Health Coach**.\n\nI have synced your live metrics:\n- **BMI: {bmi} ({category})**\n- **Target: {daily_calories} kcal/day**\n- **Goal: {user_goal.split(' (')[0]}**\n\nAsk me for an easy meal plan, home workout, or tips to reach your ideal weight!"
         }
     ]
 
-if "agent" not in st.session_state:
-    st.session_state.agent = HealthAgent()
+if "agent_engine" not in st.session_state:
+    st.session_state.agent_engine = HealthAgent()
 
-# Floating Corner Chat Popover
-with st.popover("💬 Chat with AI Coach 🟢", use_container_width=False):
+# Popover placed as fixed floating circular FAB chat widget
+with st.popover("💬", help="Chat with 24/7 AI Health Coach", use_container_width=False):
     st.markdown("""
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 12px;">
-            <div>
-                <b style="font-size: 1rem; color: #f8fafc;">🧬 VitalAI Health Assistant</b><br/>
-                <span style="font-size: 0.75rem; color: #22c55e;">● Online 24/7 (Live Biometrics Synced)</span>
-            </div>
+        <div style="border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 8px; margin-bottom: 12px;">
+            <b style="font-size: 1.05rem; color: #ffffff;">🧬 VitalAI Health Assistant</b><br/>
+            <span style="font-size: 0.78rem; color: #4ade80; font-weight: 600;">● Online 24/7 (Live Biometrics Synced)</span>
         </div>
     """, unsafe_allow_html=True)
 
-    # Quick 1-click suggestion chips inside the corner chat
-    st.caption("Quick Questions:")
-    q_col1, q_col2 = st.columns(2)
-    chip_question = None
+    # Quick Suggestion Chips
+    st.caption("Quick Inquiries:")
+    q_c1, q_c2 = st.columns(2)
+    selected_chip = None
 
-    with q_col1:
-        if st.button("🥗 7-Day Meal Plan", key="chip_diet", use_container_width=True):
-            chip_question = "What should I eat? Give me an easy 7-day meal plan."
-        if st.button("🎯 Reach Ideal Weight", key="chip_ideal", use_container_width=True):
-            chip_question = "How soon can I reach my ideal weight safely?"
-    with q_col2:
-        if st.button("🏋️ Workout Schedule", key="chip_gym", use_container_width=True):
-            chip_question = "Suggest an easy weekly workout plan for me."
-        if st.button("💧 Daily Water & Habits", key="chip_water", use_container_width=True):
-            chip_question = "Tell me water and healthy recovery habits for my body."
+    with q_c1:
+        if st.button("🥗 7-Day Meal Plan", key="btn_diet", use_container_width=True):
+            selected_chip = "Give me an easy 7-day meal plan for my calorie target."
+        if st.button("🎯 Reach Ideal Weight", key="btn_target", use_container_width=True):
+            selected_chip = "How soon can I reach my ideal weight safely?"
+    with q_c2:
+        if st.button("🏋️ Workout Schedule", key="btn_workout", use_container_width=True):
+            selected_chip = "What is the best weekly workout plan for my body and goal?"
+        if st.button("💧 Hydration & Recovery", key="btn_water", use_container_width=True):
+            selected_chip = "What are the best hydration and daily recovery habits?"
 
-    # Render previous messages
-    for msg in st.session_state.chat_history[-6:]:  # show recent messages for clean scroll
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
+    # Display Recent Chat Stream
+    for m in st.session_state.chat_messages[-6:]:
+        with st.chat_message(m["role"]):
+            st.markdown(m["content"])
 
-    # Chat input in corner popup
-    chat_prompt = st.chat_input("Ask anything (e.g. diet, exercise, weight)...")
-    final_query = chip_question if chip_question else chat_prompt
+    # Chat input in popup
+    chat_query = st.chat_input("Ask about diet, workout, or health...")
+    active_q = selected_chip if selected_chip else chat_query
 
-    if final_query:
-        st.session_state.chat_history.append({"role": "user", "content": final_query})
+    if active_q:
+        st.session_state.chat_messages.append({"role": "user", "content": active_q})
         with st.chat_message("user"):
-            st.markdown(final_query)
+            st.markdown(active_q)
 
-        # Get response from AI Agent with live profile
-        reply = st.session_state.agent.respond(final_query, profile)
-
+        bot_reply = st.session_state.agent_engine.respond(active_q, profile)
         with st.chat_message("assistant"):
-            st.markdown(reply)
-        st.session_state.chat_history.append({"role": "assistant", "content": reply})
+            st.markdown(bot_reply)
+        st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
