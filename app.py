@@ -234,6 +234,8 @@ st.markdown("""
         position: fixed !important;
         bottom: 24px !important;
         right: 24px !important;
+        left: auto !important;
+        top: auto !important;
         z-index: 999999 !important;
         margin: 0 !important;
     }
