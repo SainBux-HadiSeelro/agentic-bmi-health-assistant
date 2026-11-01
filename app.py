@@ -2,8 +2,8 @@
 🧬 VitalAI - Smart Health & BMI Intelligence Platform
 Clean, aesthetic, high-contrast, and intuitive for everyone.
 Includes precision biometrics, visual WHO spectrum meter,
-and a 24/7 Live AI Health Assistant anchored to the bottom-right corner
-with bottom quick-question options and a custom question input box.
+and a 24/7 Live AI Health Assistant anchored as a sleek, compact
+floating circular chat widget in the bottom-right corner.
 """
 
 import streamlit as st
@@ -36,10 +36,10 @@ st.markdown("""
         color: #f8fafc !important;
     }
 
-    /* Container: Centered with comfortable bottom clearance */
+    /* Container: Centered with clean margins */
     .block-container {
         padding-top: 1.5rem !important;
-        padding-bottom: 110px !important;
+        padding-bottom: 70px !important;
         max-width: 1040px !important;
         margin: 0 auto !important;
     }
@@ -228,40 +228,76 @@ st.markdown("""
     }
 
     /* --------------------------------------------------
-       FIXED CORNER FLOATING CHATBOT BUTTON (Bottom-Right Anchor)
+       SLEEK, COMPACT FLOATING CORNER CHATBOT (Modern SaaS FAB)
        -------------------------------------------------- */
+    /* Remove flow-space in DOM */
+    div.stElementContainer:has(div[data-testid="stPopover"]) {
+        position: fixed !important;
+        bottom: 24px !important;
+        right: 24px !important;
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        z-index: 9999999 !important;
+    }
+
     div[data-testid="stPopover"] {
         position: fixed !important;
         bottom: 24px !important;
         right: 24px !important;
         z-index: 9999999 !important;
+        margin: 0 !important;
     }
 
-    div[data-testid="stPopover"] > button {
-        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%) !important;
+    /* Small, aesthetic, circular floating button */
+    div[data-testid="stPopover"] button[data-testid="stPopoverButton"] {
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+        min-height: 50px !important;
+        max-width: 50px !important;
+        max-height: 50px !important;
+        border-radius: 50% !important;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%) !important;
         color: #ffffff !important;
-        border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
-        border-radius: 9999px !important;
-        padding: 11px 20px !important;
-        font-size: 0.92rem !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.3px !important;
-        box-shadow: 0 10px 25px -4px rgba(124, 58, 237, 0.75), 0 0 18px rgba(219, 39, 119, 0.5) !important;
-        display: inline-flex !important;
+        border: 2px solid rgba(255, 255, 255, 0.45) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
         align-items: center !important;
-        gap: 8px !important;
-        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        justify-content: center !important;
+        box-shadow: 0 8px 20px -3px rgba(124, 58, 237, 0.75), 0 0 16px rgba(236, 72, 153, 0.5) !important;
         cursor: pointer !important;
+        transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
     }
 
-    div[data-testid="stPopover"] > button:hover {
-        transform: translateY(-2px) scale(1.03) !important;
-        box-shadow: 0 16px 32px -4px rgba(124, 58, 237, 0.95), 0 0 24px rgba(219, 39, 119, 0.7) !important;
+    div[data-testid="stPopover"] button[data-testid="stPopoverButton"]:hover {
+        transform: scale(1.12) translateY(-2px) !important;
+        box-shadow: 0 12px 28px -3px rgba(124, 58, 237, 0.95), 0 0 24px rgba(236, 72, 153, 0.7) !important;
     }
 
+    /* Hide default chevron SVG on button */
+    div[data-testid="stPopover"] button[data-testid="stPopoverButton"] svg,
+    div[data-testid="stPopover"] button[data-testid="stPopoverButton"] [class*="e1cuvrbr"] {
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+
+    /* Center emoji inside circular button */
+    div[data-testid="stPopover"] button[data-testid="stPopoverButton"] p {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 1.4rem !important;
+        line-height: 1 !important;
+    }
+
+    /* Chat dialog window in corner */
     div[data-testid="stPopoverBody"] {
-        width: 390px !important;
-        max-width: 92vw !important;
+        width: 380px !important;
+        max-width: 90vw !important;
         border-radius: 18px !important;
         background: #111827 !important;
         border: 1.5px solid rgba(124, 58, 237, 0.45) !important;
@@ -554,7 +590,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
 
 # ---------------------------------------------------------
-# CORNER FLOATING AI CHATBOT (Bottom-Right Anchor)
+# COMPACT CORNER FLOATING AI CHATBOT (Bottom-Right Anchor)
 # ---------------------------------------------------------
 if "chat_messages" not in st.session_state:
     st.session_state.chat_messages = [
@@ -567,8 +603,8 @@ if "chat_messages" not in st.session_state:
 if "agent_engine" not in st.session_state:
     st.session_state.agent_engine = HealthAgent()
 
-# Popover anchored strictly in bottom-right corner
-with st.popover("💬 Chat with AI Coach 🟢", use_container_width=False):
+# Popover anchored strictly in bottom-right corner as a 50px aesthetic circular FAB
+with st.popover("💬", use_container_width=False):
     # Chat Header
     st.markdown("""
         <div style="border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 6px; margin-bottom: 8px;">
