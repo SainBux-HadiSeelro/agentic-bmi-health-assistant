@@ -1,10 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "agentic-bmi-health-assistant"
 version = "2.0.0"
 description = "Autonomous Agentic Health & BMI Intelligence Platform with 24/7 Context-Aware AI Copilot"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
-    "streamlit>=1.42.0",
-    "pandas>=2.2.0",
+    "streamlit>=1.38.0",
+    "pandas>=2.0.0",
 ]
