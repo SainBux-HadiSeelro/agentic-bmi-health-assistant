@@ -228,20 +228,60 @@ st.markdown("""
     }
 
     /* --------------------------------------------------
-       FLOATING CORNER CHATBOT BUTTON (BOTTOM-RIGHT ANCHOR)
+       FLOATING CORNER CHATBOT BUTTON (STRICTLY RIGHT-SIDE ANCHOR)
        -------------------------------------------------- */
-    div[data-testid="stPopover"] {
+    /* Container anchor: strictly on the right side */
+    div.stElementContainer:has(div[data-testid="stPopover"]),
+    div.stElementContainer:has(button[data-testid="stPopoverButton"]) {
         position: fixed !important;
         bottom: 24px !important;
         right: 24px !important;
         left: auto !important;
         top: auto !important;
-        z-index: 999999 !important;
+        width: 52px !important;
+        height: 52px !important;
+        z-index: 99999999 !important;
         margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: flex-end !important;
+    }
+
+    div[data-testid="stPopover"],
+    div.stPopover {
+        position: fixed !important;
+        bottom: 24px !important;
+        right: 24px !important;
+        left: auto !important;
+        top: auto !important;
+        width: 52px !important;
+        height: 52px !important;
+        z-index: 99999999 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: flex-end !important;
+        float: right !important;
+    }
+
+    div[data-testid="stPopover"] > div {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: flex-end !important;
+        width: 52px !important;
+        height: 52px !important;
     }
 
     /* Sleek 50px circular button strictly anchored to bottom right */
-    button[data-testid="stPopoverButton"] {
+    button[data-testid="stPopoverButton"],
+    div[data-testid="stPopover"] button {
+        position: fixed !important;
+        bottom: 24px !important;
+        right: 24px !important;
+        left: auto !important;
+        top: auto !important;
         width: 50px !important;
         height: 50px !important;
         min-width: 50px !important;
@@ -259,6 +299,8 @@ st.markdown("""
         justify-content: center !important;
         box-shadow: 0 8px 24px -3px rgba(124, 58, 237, 0.8), 0 0 16px rgba(236, 72, 153, 0.5) !important;
         cursor: pointer !important;
+        float: right !important;
+        z-index: 99999999 !important;
         transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
     }
 
@@ -578,76 +620,75 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         use_container_width=True
     )
 
+    # ---------------------------------------------------------
+    # CORNER FLOATING CHATBOT (Anchored to Right Column & Viewport Bottom-Right)
+    # ---------------------------------------------------------
+    if "chat_messages" not in st.session_state:
+        st.session_state.chat_messages = [
+            {
+                "role": "assistant",
+                "content": f"Hi! 👋 Synced: **BMI {bmi} ({category})**, Target: **{daily_calories} kcal/day**. How can I help you?"
+            }
+        ]
 
-# ---------------------------------------------------------
-# CORNER FLOATING CHATBOT (Anchored at Root to Viewport Bottom-Right)
-# ---------------------------------------------------------
-if "chat_messages" not in st.session_state:
-    st.session_state.chat_messages = [
-        {
-            "role": "assistant",
-            "content": f"Hi! 👋 Synced: **BMI {bmi} ({category})**, Target: **{daily_calories} kcal/day**. How can I help you?"
-        }
-    ]
+    if "agent_engine" not in st.session_state:
+        st.session_state.agent_engine = HealthAgent()
 
-if "agent_engine" not in st.session_state:
-    st.session_state.agent_engine = HealthAgent()
+    # Popover anchored strictly in bottom-right corner as a 50px circular FAB
+    with st.popover("💬", use_container_width=False):
+        # Chat Header
+        st.markdown("""
+            <div style="border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 6px; margin-bottom: 8px;">
+                <b style="font-size: 0.98rem; color: #ffffff;">🧬 VitalAI Health Assistant</b><br/>
+                <span style="font-size: 0.74rem; color: #4ade80; font-weight: 600;">● Online 24/7 (Live Biometrics Synced)</span>
+            </div>
+        """, unsafe_allow_html=True)
 
-# Popover anchored strictly in bottom-right corner as a 50px circular FAB
-with st.popover("💬", use_container_width=False):
-    # Chat Header
-    st.markdown("""
-        <div style="border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 6px; margin-bottom: 8px;">
-            <b style="font-size: 0.98rem; color: #ffffff;">🧬 VitalAI Health Assistant</b><br/>
-            <span style="font-size: 0.74rem; color: #4ade80; font-weight: 600;">● Online 24/7 (Live Biometrics Synced)</span>
-        </div>
-    """, unsafe_allow_html=True)
+        # 1. Message Stream Area (Compact Scrollable)
+        st.markdown('<div style="max-height: 100px; overflow-y: auto; padding-right: 4px; margin-bottom: 8px;">', unsafe_allow_html=True)
+        for m in st.session_state.chat_messages[-4:]:
+            if m["role"] == "assistant":
+                st.markdown(f'<div class="chat-bubble-ai">🤖 <b>VitalAI:</b><br/>{m["content"]}</div>', unsafe_allow_html=True)
+            else:
+                st.markdown(f'<div class="chat-bubble-user">👤 <b>You:</b><br/>{m["content"]}</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # 1. Message Stream Area (Compact Scrollable)
-    st.markdown('<div style="max-height: 100px; overflow-y: auto; padding-right: 4px; margin-bottom: 8px;">', unsafe_allow_html=True)
-    for m in st.session_state.chat_messages[-4:]:
-        if m["role"] == "assistant":
-            st.markdown(f'<div class="chat-bubble-ai">🤖 <b>VitalAI:</b><br/>{m["content"]}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown(f'<div class="chat-bubble-user">👤 <b>You:</b><br/>{m["content"]}</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+        # 2. Options for questions to ask (Neeche Options)
+        st.markdown('<div style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase;">💡 Quick Questions (Click to Ask):</div>', unsafe_allow_html=True)
+        q_c1, q_c2 = st.columns(2)
+        selected_option = None
 
-    # 2. Options for questions to ask (Neeche Options)
-    st.markdown('<div style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase;">💡 Quick Questions (Click to Ask):</div>', unsafe_allow_html=True)
-    q_c1, q_c2 = st.columns(2)
-    selected_option = None
+        with q_c1:
+            if st.button("🥗 7-Day Meal Plan", key="opt_diet", use_container_width=True):
+                selected_option = "Give me an easy 7-day meal plan for my calorie target."
+            if st.button("🎯 Reach Ideal Weight", key="opt_target", use_container_width=True):
+                selected_option = "How soon can I reach my ideal weight safely?"
+        with q_c2:
+            if st.button("🏋️ Workout Schedule", key="opt_workout", use_container_width=True):
+                selected_option = "What is the best weekly workout plan for my body and goal?"
+            if st.button("💧 Daily Water & Habits", key="opt_water", use_container_width=True):
+                selected_option = "What are the best hydration and daily recovery habits?"
 
-    with q_c1:
-        if st.button("🥗 7-Day Meal Plan", key="opt_diet", use_container_width=True):
-            selected_option = "Give me an easy 7-day meal plan for my calorie target."
-        if st.button("🎯 Reach Ideal Weight", key="opt_target", use_container_width=True):
-            selected_option = "How soon can I reach my ideal weight safely?"
-    with q_c2:
-        if st.button("🏋️ Workout Schedule", key="opt_workout", use_container_width=True):
-            selected_option = "What is the best weekly workout plan for my body and goal?"
-        if st.button("💧 Daily Water & Habits", key="opt_water", use_container_width=True):
-            selected_option = "What are the best hydration and daily recovery habits?"
+        # 3. Custom Question Input Form (Neeche question poochhne ke lie)
+        st.markdown('<div style="margin-top: 6px;"></div>', unsafe_allow_html=True)
+        with st.form("user_chat_form", clear_on_submit=True):
+            custom_query = st.text_input(
+                "Apna sawal yahan likhein (Ask your question):",
+                placeholder="Type your question here...",
+                key="custom_user_input",
+                label_visibility="collapsed"
+            )
+            submit_btn = st.form_submit_button("Ask Question 🚀", use_container_width=True)
 
-    # 3. Custom Question Input Form (Neeche question poochhne ke lie)
-    st.markdown('<div style="margin-top: 6px;"></div>', unsafe_allow_html=True)
-    with st.form("user_chat_form", clear_on_submit=True):
-        custom_query = st.text_input(
-            "Apna sawal yahan likhein (Ask your question):",
-            placeholder="Type your question here...",
-            key="custom_user_input",
-            label_visibility="collapsed"
-        )
-        submit_btn = st.form_submit_button("Ask Question 🚀", use_container_width=True)
+        # Process action
+        active_prompt = None
+        if selected_option:
+            active_prompt = selected_option
+        elif submit_btn and custom_query.strip():
+            active_prompt = custom_query.strip()
 
-    # Process action
-    active_prompt = None
-    if selected_option:
-        active_prompt = selected_option
-    elif submit_btn and custom_query.strip():
-        active_prompt = custom_query.strip()
-
-    if active_prompt:
-        st.session_state.chat_messages.append({"role": "user", "content": active_prompt})
-        bot_reply = st.session_state.agent_engine.respond(active_prompt, profile)
-        st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-        st.rerun()
+        if active_prompt:
+            st.session_state.chat_messages.append({"role": "user", "content": active_prompt})
+            bot_reply = st.session_state.agent_engine.respond(active_prompt, profile)
+            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+            st.rerun()
