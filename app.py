@@ -3,7 +3,7 @@
 Clean, aesthetic, high-contrast, and intuitive for everyone.
 Includes precision biometrics, visual WHO spectrum meter,
 and a 24/7 Live AI Health Assistant anchored as a sleek, compact
-floating circular chat widget in the bottom-right corner.
+floating circular chat widget strictly on the bottom-right corner.
 """
 
 import streamlit as st
@@ -228,36 +228,48 @@ st.markdown("""
     }
 
     /* --------------------------------------------------
-       SLEEK, COMPACT FLOATING CORNER CHATBOT (Modern SaaS FAB)
+       FLOATING CORNER CHATBOT (STRICTLY RIGHT SIDE ANCHOR)
        -------------------------------------------------- */
-    /* Remove flow-space in DOM */
+    /* Never let popover container sit on the left */
     div.stElementContainer:has(div[data-testid="stPopover"]) {
         position: fixed !important;
         bottom: 24px !important;
         right: 24px !important;
-        width: 0 !important;
-        height: 0 !important;
+        left: auto !important;
+        top: auto !important;
+        width: auto !important;
+        height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
-        z-index: 9999999 !important;
+        z-index: 99999999 !important;
+        display: flex !important;
+        justify-content: flex-end !important;
     }
 
     div[data-testid="stPopover"] {
         position: fixed !important;
         bottom: 24px !important;
         right: 24px !important;
-        z-index: 9999999 !important;
+        left: auto !important;
+        top: auto !important;
         margin: 0 !important;
+        z-index: 99999999 !important;
+        float: right !important;
     }
 
-    /* Small, aesthetic, circular floating button */
+    div[data-testid="stPopover"] > div {
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+
+    /* Small, aesthetic, circular floating button strictly on the RIGHT */
     div[data-testid="stPopover"] button[data-testid="stPopoverButton"] {
-        width: 50px !important;
-        height: 50px !important;
-        min-width: 50px !important;
-        min-height: 50px !important;
-        max-width: 50px !important;
-        max-height: 50px !important;
+        width: 48px !important;
+        height: 48px !important;
+        min-width: 48px !important;
+        min-height: 48px !important;
+        max-width: 48px !important;
+        max-height: 48px !important;
         border-radius: 50% !important;
         background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%) !important;
         color: #ffffff !important;
@@ -270,6 +282,7 @@ st.markdown("""
         box-shadow: 0 8px 20px -3px rgba(124, 58, 237, 0.75), 0 0 16px rgba(236, 72, 153, 0.5) !important;
         cursor: pointer !important;
         transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
+        float: right !important;
     }
 
     div[data-testid="stPopover"] button[data-testid="stPopoverButton"]:hover {
@@ -304,6 +317,8 @@ st.markdown("""
         box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.95) !important;
         padding: 12px 14px !important;
         color: #f8fafc !important;
+        right: 24px !important;
+        left: auto !important;
     }
 
     /* Message bubble styling */
@@ -489,7 +504,7 @@ profile = UserHealthProfile(
 
 
 # ---------------------------------------------------------
-# Right Column: Visual Health Dashboard
+# Right Column: Visual Health Dashboard + Floating Chatbot
 # ---------------------------------------------------------
 with col_right:
     st.markdown('<div class="section-title">📊 Your Health Assessment</div>', unsafe_allow_html=True)
@@ -588,76 +603,75 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         use_container_width=True
     )
 
+    # ---------------------------------------------------------
+    # CORNER FLOATING CHATBOT (Placed inside col_right strictly)
+    # ---------------------------------------------------------
+    if "chat_messages" not in st.session_state:
+        st.session_state.chat_messages = [
+            {
+                "role": "assistant",
+                "content": f"Hi! 👋 Synced: **BMI {bmi} ({category})**, Target: **{daily_calories} kcal/day**. How can I help you?"
+            }
+        ]
 
-# ---------------------------------------------------------
-# COMPACT CORNER FLOATING AI CHATBOT (Bottom-Right Anchor)
-# ---------------------------------------------------------
-if "chat_messages" not in st.session_state:
-    st.session_state.chat_messages = [
-        {
-            "role": "assistant",
-            "content": f"Hi! 👋 Synced: **BMI {bmi} ({category})**, Target: **{daily_calories} kcal/day**. How can I help you?"
-        }
-    ]
+    if "agent_engine" not in st.session_state:
+        st.session_state.agent_engine = HealthAgent()
 
-if "agent_engine" not in st.session_state:
-    st.session_state.agent_engine = HealthAgent()
+    # Popover anchored strictly in bottom-right corner as a 48px aesthetic circular FAB
+    with st.popover("💬", use_container_width=False):
+        # Chat Header
+        st.markdown("""
+            <div style="border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 6px; margin-bottom: 8px;">
+                <b style="font-size: 0.98rem; color: #ffffff;">🧬 VitalAI Health Assistant</b><br/>
+                <span style="font-size: 0.74rem; color: #4ade80; font-weight: 600;">● Online 24/7 (Live Biometrics Synced)</span>
+            </div>
+        """, unsafe_allow_html=True)
 
-# Popover anchored strictly in bottom-right corner as a 50px aesthetic circular FAB
-with st.popover("💬", use_container_width=False):
-    # Chat Header
-    st.markdown("""
-        <div style="border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 6px; margin-bottom: 8px;">
-            <b style="font-size: 0.98rem; color: #ffffff;">🧬 VitalAI Health Assistant</b><br/>
-            <span style="font-size: 0.74rem; color: #4ade80; font-weight: 600;">● Online 24/7 (Live Biometrics Synced)</span>
-        </div>
-    """, unsafe_allow_html=True)
+        # 1. Message Stream Area (Compact Scrollable)
+        st.markdown('<div style="max-height: 100px; overflow-y: auto; padding-right: 4px; margin-bottom: 8px;">', unsafe_allow_html=True)
+        for m in st.session_state.chat_messages[-4:]:
+            if m["role"] == "assistant":
+                st.markdown(f'<div class="chat-bubble-ai">🤖 <b>VitalAI:</b><br/>{m["content"]}</div>', unsafe_allow_html=True)
+            else:
+                st.markdown(f'<div class="chat-bubble-user">👤 <b>You:</b><br/>{m["content"]}</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # 1. Message Stream Area (Compact Scrollable)
-    st.markdown('<div style="max-height: 100px; overflow-y: auto; padding-right: 4px; margin-bottom: 8px;">', unsafe_allow_html=True)
-    for m in st.session_state.chat_messages[-4:]:
-        if m["role"] == "assistant":
-            st.markdown(f'<div class="chat-bubble-ai">🤖 <b>VitalAI:</b><br/>{m["content"]}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown(f'<div class="chat-bubble-user">👤 <b>You:</b><br/>{m["content"]}</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+        # 2. Options for questions to ask (Neeche Options)
+        st.markdown('<div style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase;">💡 Quick Questions (Click to Ask):</div>', unsafe_allow_html=True)
+        q_c1, q_c2 = st.columns(2)
+        selected_option = None
 
-    # 2. Options for questions to ask (Neeche Options)
-    st.markdown('<div style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase;">💡 Quick Questions (Click to Ask):</div>', unsafe_allow_html=True)
-    q_c1, q_c2 = st.columns(2)
-    selected_option = None
+        with q_c1:
+            if st.button("🥗 7-Day Meal Plan", key="opt_diet", use_container_width=True):
+                selected_option = "Give me an easy 7-day meal plan for my calorie target."
+            if st.button("🎯 Reach Ideal Weight", key="opt_target", use_container_width=True):
+                selected_option = "How soon can I reach my ideal weight safely?"
+        with q_c2:
+            if st.button("🏋️ Workout Schedule", key="opt_workout", use_container_width=True):
+                selected_option = "What is the best weekly workout plan for my body and goal?"
+            if st.button("💧 Daily Water & Habits", key="opt_water", use_container_width=True):
+                selected_option = "What are the best hydration and daily recovery habits?"
 
-    with q_c1:
-        if st.button("🥗 7-Day Meal Plan", key="opt_diet", use_container_width=True):
-            selected_option = "Give me an easy 7-day meal plan for my calorie target."
-        if st.button("🎯 Reach Ideal Weight", key="opt_target", use_container_width=True):
-            selected_option = "How soon can I reach my ideal weight safely?"
-    with q_c2:
-        if st.button("🏋️ Workout Schedule", key="opt_workout", use_container_width=True):
-            selected_option = "What is the best weekly workout plan for my body and goal?"
-        if st.button("💧 Daily Water & Habits", key="opt_water", use_container_width=True):
-            selected_option = "What are the best hydration and daily recovery habits?"
+        # 3. Custom Question Input Form (Neeche question poochhne ke lie)
+        st.markdown('<div style="margin-top: 6px;"></div>', unsafe_allow_html=True)
+        with st.form("user_chat_form", clear_on_submit=True):
+            custom_query = st.text_input(
+                "Apna sawal yahan likhein (Ask your question):",
+                placeholder="Type your question here...",
+                key="custom_user_input",
+                label_visibility="collapsed"
+            )
+            submit_btn = st.form_submit_button("Ask Question 🚀", use_container_width=True)
 
-    # 3. Custom Question Input Form (Neeche question poochhne ke lie)
-    st.markdown('<div style="margin-top: 6px;"></div>', unsafe_allow_html=True)
-    with st.form("user_chat_form", clear_on_submit=True):
-        custom_query = st.text_input(
-            "Apna sawal yahan likhein (Ask your question):",
-            placeholder="Type your question here...",
-            key="custom_user_input",
-            label_visibility="collapsed"
-        )
-        submit_btn = st.form_submit_button("Ask Question 🚀", use_container_width=True)
+        # Process action
+        active_prompt = None
+        if selected_option:
+            active_prompt = selected_option
+        elif submit_btn and custom_query.strip():
+            active_prompt = custom_query.strip()
 
-    # Process action
-    active_prompt = None
-    if selected_option:
-        active_prompt = selected_option
-    elif submit_btn and custom_query.strip():
-        active_prompt = custom_query.strip()
-
-    if active_prompt:
-        st.session_state.chat_messages.append({"role": "user", "content": active_prompt})
-        bot_reply = st.session_state.agent_engine.respond(active_prompt, profile)
-        st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-        st.rerun()
+        if active_prompt:
+            st.session_state.chat_messages.append({"role": "user", "content": active_prompt})
+            bot_reply = st.session_state.agent_engine.respond(active_prompt, profile)
+            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+            st.rerun()
